@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLOCK_WATCHDOG_TIMEOUT | Hasan Atki - Software Engineer</title>
+    <meta name="description"
+        content="Hasan Atki is a Software Engineer building digital experiences with modern technologies. Focused on creating elegant solutions to complex problems.">
+    <link rel="stylesheet" href="/assets/style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/pvh0vgx.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LPWLDEDCEZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LPWLDEDCEZ');
+    </script>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                atki.ie
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/#projects" class="nav-link">Projects</a>
+                <a href="/#about" class="nav-link">About</a>
+                <a href="/#contact" class="nav-link">Contact</a>
+                <a href="/blog" class="nav-link">Blog</a>
+                <a download href="/assets/files/Hasan_Atki_Resume_SWD.pdf" class="resume-btn">Resume</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 post">
+    <form class="back">
+     <input type="button" value="&#10140;" onclick="history.back()">
+    </form>
+    <h2>CLOCK_WATCHDOG_TIMEOUT</h2>
+    <h4>A horror story.</h4>
+    <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzjh2tz9e3k8y8j5n0gb78ax%2F1751894893_img_0.webp?st=2025-07-07T12%3A07%3A20Z&amp;se=2025-07-13T13%3A07%3A20Z&amp;sks=b&amp;skt=2025-07-07T12%3A07%3A20Z&amp;ske=2025-07-13T13%3A07%3A20Z&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skoid=8ebb0df1-a278-4e2e-9c20-f2d373479b3a&amp;skv=2019-02-02&amp;sv=2018-11-09&amp;sr=b&amp;sp=r&amp;spr=https%2Chttp&amp;sig=CYdmxyUk5RjU1Jhpagy4l33wPsL3ak1a5h0w6JjK2uQ%3D&amp;az=oaivgprodscus" alt="">
+
+    <p>Do you ever get that feeling when you're in the zone, typing about a billion words per minute, flying along, and then ... Why is this key not working? Ergh, mouse not working either. After 5 seconds, bam! BSOD! Yeah, me too. Fortunately, I did some in depth-analysis and will show you the solution in this article.</p>
+
+    <h4>The frustrating experience of random BSODs</h4>
+    <p>The first time this BSOD happened after I bought my laptop <em>(HP Pavilion series, i7 running Windows 11)</em>, I thought it was random. It just froze and 5 seconds later the BSOD appeared. I had to do a hard restart, since it was completely unresponsive. Having dealt with many low performance PCs before, I didn't think much of it, believed it was just a random error and it would go away on its own. About 3 or 4 days later while I was coding, it happened again. I googled it to see if it happened to other people as well and it had. Unfortunately, all the articles I'd read so far on it are either completely inconclusive, or just wrong. Many of those blame the processor, because that's just the obvious answer.</p>
+
+    <h4>CLOCK_WATCHDOG_TIMEOUT Error in a Nutshell:</h4>
+    <p>Essentially, a watchdog timer is an electronic timer to detect and recover from computational malfunctions. If due to a hardware or software fault the computer fails to restart the timer: cue in the BSOD (timeout signal). 
+        <em>Remember, the textbook definition <strong>is not</strong> CPU specific.</em> <a href="#ref-1">Zlatanov, 2014</a>
+    </p>
+    <p>Because it points directly at the CPU, people and even some diagnostic tools jump to conclusions about a faulty CPU or RAM nearly all the time. A simple Google search of <code>CLOCK_WATCHDOG_TIMEOUT</code> will bring up many articles essentially saying that the processor is faulty.</p>
+    
+    <p>While the CPU is a by-product of this error, 9 times out of 10 it is caused by other parts of the system. Something I agree with, with all those articles is that it's an extreme pain in the neck to deal with!</p>
+
+    <p>For me, this error went quiet for the better part of 12 months when it started reappearing again, obnoxiously. There was no clear pattern of how it happened. For instance, sometimes it would crash while I was watching a YouTube video, or just browsing a simple site. No signs of overload, no signs of overheating, just out of the blue. Sometimes, the uptime would last as little as 30 or 45 minutes before one of these episodes. Hard reboot, then 30 minutes later, again. Incredibly frustrated, I began testing.</p>
+
+    <h4>Let the wild blue chase begin!</h4>
+    <p>Before diving into the testing phase, I ensured both my system's firmware (BIOS/UEFI) and all relevant drivers were reported as "up to date" according to Windows. Not content with just Windows' assessment, I manually downloaded the latest firmware update from HP's official website. Crucially, I took the extra step of attempting to clear any remnants of the old firmware before installation, as I suspected Windows Update might simply write over old files without truly clearing potential conflicts. Despite these efforts, the problem remained stubbornly present.</p>
+
+    <p>Articles, reddit threads, FAQ pages from Microsoft, HP etc. mostly pointed to a faulty processor. Some even said that could be a faulty RAM or overheating. At this stage, there were multiple suspects, but nothing certain.</p>
+
+    <p>First test I concluded was overheating of the GPU. I closely monitored the temperature via a free tool <a href="https://www.techpowerup.com/gpuz/" target="_blank">GPU-Z</a>. The goal of this test was to find any correlation with temperatures over 50°C triggering the error, as mentioned in one of the threads/articles. 50°C is the average idle temperature of the motherboard, so during these tests, there was no usage of software or stressing the processor and RAM in any way. After about 5 tests of anywhere between 2-3 hours, there was nothing related to the temperature, even in cases where it went up an additional 10°C. To take precaution, however, I got the thermal paste replaced and motherboard cleaned of any dust etc. Excited that the problem might've been solved, I booted up my laptop and it worked... for about 5 hours. While the series of events were not clear, it was quite obvious it wasn't the GPU that was involved in the exacerbation of this error.</p>
+
+    <p>Next on my strategy was the testing of RAM. I made a bootable-USB drive with <a href="https://www.memtest86.com/" target="_blank">MemTest86</a> and began testing without the OS in the way. <strong>Testing concluded after 11 hours: 18 tests ran, 18 passed, 0 errors.</strong> Successfully crossed the RAM off the list as well.</p>
+    
+    <p>The next move, really made me zero-in on the issue. I made another bootable-USB, but this time with a Linux distro (Ubuntu Desktop 24.04.2). The goal of this step was to determine if the error was related to the operating system, a driver associated with it, or if Windows simply couldn't cope under stress. <em>Note that, all processes and use of the laptop were well within the specifications of hardware.</em> I would test different parts and monitor if it would crash.</p>
+
+    <p>The plan was to monitor general system usage, monitor system logs and monitor temperatures. For the first step, I was trying to emulate generic use, such as watching YouTube, so I opened Firefox, which was preinstalled in Ubuntu. I put a video on play and left it alone. Simultaneously, I had three terminal windows open: 
+        <br>
+        <code>dmesg -w</code>, to monitor kernel messages, as well as any hardware errors. 
+        <br>
+        <code>journalctl -f</code>, to monitor more comprehensive logs in real time. Lastly, temperature was monitored by running 
+        <br>
+        <code>sudo sensors-detect</code> (not installed by default).
+        After a few minutes of running, my <code>journalctl -f</code> window looked like this.
+        <img src="/assets/media/images/journalctl.jpg" width="100%" alt="journalctl -f terminal window during Ubuntu testing">
+        The message <code>unhandled firmware c2h interrupt</code> kept repeating over and over again. All these messages were associated with <code>rtw_8821ce 0000:01:00.0</code>, which refers to <strong>Realtek RTL8821CE Wi-Fi and Bluetooth adapter</strong>. Surprise, right? But, let's dig deeper. More often than not, <code>c2h</code> stands for "chip to host", meaning communication from the Wi-Fi chip to the main CPU was not taking place properly. These intermittent surges of messages also caused the Wi-Fi to disconnect shortly after. Although these messages don't directly say "crash", like the BSOD, they certainly tell us that enough of these will overwhelm the CPU, which will set off computational malfunctions, which will  potentially cause a watchdog timeout signal. While not proven yet, the evidence is strongly indicative of it.
+    </p>
+
+    <p>I rebooted Ubuntu, but this time I disconnected the Wi-Fi and ran the stress test: <br>
+        <code>dmesg -w</code><br>
+        <code>journalctl -f</code><br>
+        <code>sensors-detect</code> followed by <code>watch -n 1 sensors</code><br>
+        <code>stress-ng --cpu 0 --timeout 60m</code>.
+        To my lack of surprise, no window showed any signs of mild or critical error messages after 60 minutes of running. Highest temperature of CPU reached during the test was 79°C. All behaviour under these circumstances was completely normal, since the stress test was engaging all 8 cores of my i7-1195G7. 
+    </p>
+
+    <p>Next, was repeating the same tests with the Wi-Fi enabled. Sure enough, one or two minutes in, a flood of <code>unhandled firmware c2h</code> again. There was no need to continue the test, since the evidence strongly points at  something being wrong with the Wi-Fi adapter or its driver. Running a different OS helped me isolate the problem immensely.</p>
+
+    <h4>Testing continues...</h4>
+    <p>After this huge revalation, I rebooted back into Windows to perform a specific driver update. I headed on to the HP's official support website and found the matching Realtek Wi-Fi driver based off of my laptop model and OS version. In Device Manager, I found the Realtek RTL8821CE 802.11ac PCIe Adapter and uninstalled it, while also checking the box "Delete the driver software for this device". Must not leave any trace of the old driver. At first, Windows was insisting on installing its default driver dated 2011 when I uninstalled and rebooted, but the installation of the new driver was successful after a few tries. I also got the latest firmware driver and updated it, but first I deleted the old one in the same manner. This step is crucial since Windows Update does not delete old files when installing new ones, but it just writes over them.</p>
+
+    <h4>What now? Is it solved?</h4>
+    <p>More stress tests, but this time on Windows. First, with the Wi-Fi off. I disabled the driver from Device Manager and ran <a href="https://www.mersenne.org/download/">Prime95</a>, which was my stress test intermediary. Alongside it for monitoring I chose <a href="https://www.hwinfo.com/download/">HWiNFO64</a>.</p>
+
+    <h4>Phase 1: Wi-Fi DISABLED | <em>Not just off from the taskbar, driver disabled through Device Manager</em></h4>
+    <p>On Prime95, I selected "Small FFTs". This is a CPU-intensive test that primarily stresses the cores and caches, not much RAM.</p>
+    <p>Conclusion: peak temperature 97°C in around 2 hours of running, no unresponsiveness issues.</p>
+
+    <h4>Phase 2: Wi-Fi ENABLED</h4>
+    <p>I selected "Small FFTs" again.</p>
+    <p>Conclusion: peak temperature 97°C in over 10 hours of running, no unresponsiveness issues. It seems promising, but testing shall not stop there!</p>
+
+    <p>At this point, the laptop's uptime is sitting at ~15 hours, uninterrupted.</p>
+
+    <p>I decided to launch Chrome and browse YouTube again. Ten minutes later:</p>
+    <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzjh2tz9e3k8y8j5n0gb78ax%2F1751894893_img_0.webp?st=2025-07-07T12%3A07%3A20Z&amp;se=2025-07-13T13%3A07%3A20Z&amp;sks=b&amp;skt=2025-07-07T12%3A07%3A20Z&amp;ske=2025-07-13T13%3A07%3A20Z&amp;sktid=a48cca56-e6da-484e-a814-9c849652bcb3&amp;skoid=8ebb0df1-a278-4e2e-9c20-f2d373479b3a&amp;skv=2019-02-02&amp;sv=2018-11-09&amp;sr=b&amp;sp=r&amp;spr=https%2Chttp&amp;sig=CYdmxyUk5RjU1Jhpagy4l33wPsL3ak1a5h0w6JjK2uQ%3D&amp;az=oaivgprodscus" alt="BSOD">
+    <p>Frustrating as it is, it's also new information. This goes to show that there is a really high chance of this issue being caused by Chrome or network traffic. I reboot and run <code>eventvwr.msc</code> to look for critical events right before the crash. Surprisngly, none whatsoever.</p>
+    <p>At this point, I launch Chrome again and see how soon it will happen. After 10 minutes of running on one tab, nothing happened. I opened another tab to test progressively and 48 seconds in -- BSOD.</p>
+
+    <p>Ladies and gentlemen, it's a fair assumption to make that this is our smoking gun. Extremely strong evidence towards the Realtek Wi-Fi adapter not being able to handle heavy requests.</p>
+
+    <p>My last and final set of tests, were to perform the same in Firefox. Here is a breakdown of those.</p>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Length</th>
+                <th>Test</th>
+                <th>Signs</th>
+            </tr>
+            <tr>
+                <td>10m24s</td>
+                <td>1 YouTube Tab</td>
+                <td>No signs</td>
+            </tr>
+            <tr>
+                <td>09m00s</td>
+                <td>2 YouTube Tabs</td>
+                <td>No signs</td>
+            </tr>
+            <tr>
+                <td>05m57s</td>
+                <td>3 YouTube Tabs</td>
+                <td>No signs</td>
+            </tr>
+            <tr>
+                <td>01m22s</td>
+                <td>4 YouTube Tabs</td>
+                <td>No signs</td>
+            </tr>
+            <tr>
+                <td>04m48s</td>
+                <td>4 YouTube Tabs + Prime95 on full mode</td>
+                <td>Major glitches of video signal, minor glitches of audio signal, followed by 25s of Screen turned off with only the pointer visible</td>
+            </tr>
+            <tr>
+                <td>00m37s</td>
+                <td>Prime95 on full mode</td>
+                <td>Responsiveness returned for the circumstances.</td>
+            </tr>
+        </table>
+    </div>
+
+    <p>Test concluded with no BSODs, but showed heavy signs of glitching since all its parts were basically on full throttle.</p>
+
+    <p>Luckily, I haven't had this problem again since. It has been an extreme wild goose chase figuring out this problem, but we finally tackled it.</p>
+
+    <hr>
+    <section id="references">
+        <h3>References</h3>
+        <ol>
+            <li id="ref-1">
+                Zlatanov, N. (2014). <em>Architecture and Operation of a Watchdog Timer</em>. Publisher. <a href="https://www.researchgate.net/profile/Nikola-Zlatanov/publication/295010877_Architecture_and_Operation_of_a_Watchdog_Timer/links/56c65d6b08ae0d3b1b603ee0/Architecture-and-Operation-of-a-Watchdog-Timer.pdf" target="_blank" rel="noopener noreferrer">Available from: Research Gate</a>
+            </li>
+        </ol>
+    </section>
+</div>
+
+<script>
+    
+</script>
+
+
+
+
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Hasan Atki. Built with passion.</p>
+        </div>
+    </footer>
+
+    <script src="/assets/script/script.js"></script>
+</body>
+
+</html>
