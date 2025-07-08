@@ -16,6 +16,7 @@
     --text-muted: hsl(0, 0%, 40%);
     --border: hsl(240, 3.7%, 84.1%);
     --animation-duration: 300ms;
+    --font-family: 'Myriad Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 html {
@@ -23,7 +24,7 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-family);
     background-color: var(--background);
     color: var(--text-primary);
     line-height: 1.6;
@@ -115,7 +116,7 @@ body {
     border-radius: 0.5rem;
     font-weight: 600;
     font-size: 1rem;
-    font-family: "filicudi-solid";
+    font-family: var(--font-family);
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -174,7 +175,7 @@ body {
 .nav-logo {
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'filicudi-solid';
+    font-family: var(--font-family);
     color: var(--text-secondary);
     opacity: 0;
     animation: fadeIn var(--animation-duration) ease-out 0.2s forwards;
@@ -299,8 +300,7 @@ body {
 .hero-title {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 900;
-    font-family: 'filicudi-solid';
-    margin-bottom: 1rem;
+    font-family: var(--font-family);
     background: var(--accent-color);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -313,7 +313,6 @@ body {
     font-size: clamp(2rem, 4vw, 2rem);
     font-weight: 300;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
     opacity: 0;
     animation: fadeIn var(--animation-duration) ease-out 0.7s forwards;
 }
@@ -328,7 +327,7 @@ body {
 
 .hero-buttons {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
     opacity: 0;
@@ -364,7 +363,7 @@ body {
 .section-header h2 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 800;
-    font-family: 'filicudi-solid';
+    font-family: var(--font-family);
     margin-bottom: 1rem;
 }
 
@@ -600,7 +599,7 @@ body {
     border: 2px solid var(--border);
     border-radius: 0.5rem;
     color: var(--text-primary);
-    font-family: inherit;
+    font-family: var(--font-family);
     transition: border-color 0.3s ease;
 }
 
@@ -744,7 +743,7 @@ body {
 }
 
 .posts-list h2 {
-    font-family: "filicudi-solid";
+    font-family: var(--font-family);
     color: var(--text-primary);
 }
 
