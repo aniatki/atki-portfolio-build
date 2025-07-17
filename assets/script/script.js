@@ -32,7 +32,7 @@ const successMessage = document.getElementById('success-message');
 const submitBtn = document.getElementById('submit-btn');
 
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.path == "") {
+    if (window.location.pathname == "/") {
         loadProjects();
     }
     setupNavigation();
